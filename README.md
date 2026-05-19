@@ -7,6 +7,14 @@
 
 ---
 
+## 🎬 Demo en Vivo
+
+[![Ver Demo en YouTube](https://img.youtube.com/vi/-25hLR3L19k/maxresdefault.jpg)](https://youtu.be/-25hLR3L19k)
+
+> *Clic en la imagen para ver el sistema funcionando en tiempo real.*
+
+---
+
 ## 📌 Contexto del Problema
 
 En San Miguel de Tucumán, la mayoría de los estudios contables y pymes
@@ -73,6 +81,9 @@ Cliente envía comprobante
 ## ⚙️ Arquitectura del Sistema
 
 ### Workflow 1 — Procesamiento en Tiempo Real
+
+![Workflow Procesador de Documentos](./Architecture.png)
+
 ```
 [Telegram Trigger]
        ↓
@@ -87,6 +98,9 @@ Cliente envía comprobante
 ```
 
 ### Workflow 2 — Inteligencia de Negocio Semanal
+
+![Workflow Reporte Semanal](./Architecture_2.png)
+
 ```
 [Schedule Trigger → Lunes 8:00 AM]
        ↓
@@ -100,6 +114,14 @@ Cliente envía comprobante
        ↓
 [Telegram → Reporte ejecutivo al equipo]
 ```
+
+---
+
+## 📱 Sistema en Funcionamiento
+
+![Confirmación y Reporte en Telegram](./Telegram.png)
+
+*El bot confirma cada documento recibido y envía el reporte ejecutivo semanal de forma automática.*
 
 ---
 
@@ -131,6 +153,16 @@ Cliente envía comprobante
 > ⚠️ El archivo `workflow_template.json` incluye la estructura completa
 > con placeholders para credenciales. Reemplazar `YOUR_API_KEY` por
 > los valores reales antes de ejecutar.
+
+---
+
+## 🔜 Roadmap
+
+- [ ] Procesamiento de imágenes de facturas via Vision AI
+- [ ] Dashboard visual en Google Looker Studio
+- [ ] Soporte multi-cliente con IDs únicos
+- [ ] Clasificación automática por categorías contables
+- [ ] Alertas de anomalías en montos
 
 ---
 
