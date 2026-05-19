@@ -153,8 +153,8 @@ Este sistema fue diseñado como demostración práctica de competencias en:
 
 ¿Tienes un proceso manual que podría automatizarse?
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Conectar-blue)](https://linkedin.com/in/tu-perfil)
-[![Email](https://img.shields.io/badge/Email-Contacto-red)](mailto:tu@email.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Conectar-blue)](https://linkedin.com/in/nmedina777)
+[![Email](https://img.shields.io/badge/Email-Contacto-red)](mailto:nikcyberintel@email.com)
 
 ---
 
