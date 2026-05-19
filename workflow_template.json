@@ -1,0 +1,143 @@
+{
+  "name": "Procesador de Documentos - Estudio Contable",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": ["message"],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.3,
+      "position": [0, 0],
+      "id": "node-telegram-trigger",
+      "name": "Telegram Trigger",
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "credentials": {
+        "telegramApi": {
+          "id": "YOUR_TELEGRAM_CREDENTIAL_ID",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "bearer YOUR_GROQ_API_KEY"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"llama-3.1-8b-instant\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Analiza este mensaje y extrae datos contables. Responde SOLO en JSON puro sin markdown ni backticks, con estos campos: fecha, cliente, tipo_doc, monto, proveedor. Si no encuentras un dato pon No especificado. Mensaje: {{ $json.message.text }}\"\n    }\n  ],\n  \"max_tokens\": 500\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [208, 0],
+      "id": "node-http-groq",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_SPREADSHEET_ID",
+          "mode": "list",
+          "cachedResultName": "Documentos Contables",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Fecha":     "={{ JSON.parse($('HTTP Request').item.json.choices[0].message.content).fecha }}",
+            "Cliente":   "={{ JSON.parse($('HTTP Request').item.json.choices[0].message.content).cliente }}",
+            "Tipo_Doc":  "={{ JSON.parse($('HTTP Request').item.json.choices[0].message.content).tipo_doc }}",
+            "Monto":     "={{ JSON.parse($('HTTP Request').item.json.choices[0].message.content).monto }}",
+            "Proveedor": "={{ JSON.parse($('HTTP Request').item.json.choices[0].message.content).proveedor }}",
+            "Estado":    "Recibido"
+          },
+          "matchingColumns": [],
+          "schema": [
+            { "id": "Fecha",     "displayName": "Fecha",     "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "Cliente",   "displayName": "Cliente",   "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "Tipo_Doc",  "displayName": "Tipo_Doc",  "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "Monto",     "displayName": "Monto",     "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "Proveedor", "displayName": "Proveedor", "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true },
+            { "id": "Estado",    "displayName": "Estado",    "required": false, "defaultMatch": false, "display": true, "type": "string", "canBeUsedToMatch": true }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [416, 0],
+      "id": "node-google-sheets",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "YOUR_GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "=✅ Documento recibido y registrado!\n\n📋 Resumen procesado por IA:\n- Tipo: {{ JSON.parse($('HTTP Request').item.json.choices[0].message.content).tipo_doc }}\n- Proveedor: {{ JSON.parse($('HTTP Request').item.json.choices[0].message.content).proveedor }}\n- Monto: ${{ JSON.parse($('HTTP Request').item.json.choices[0].message.content).monto }}\n- Fecha: {{ JSON.parse($('HTTP Request').item.json.choices[0].message.content).fecha }}\n\n🗂️ Todo registrado en el sistema.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [624, 0],
+      "id": "node-telegram-reply",
+      "name": "Send a text message",
+      "webhookId": "YOUR_WEBHOOK_ID_2",
+      "credentials": {
+        "telegramApi": {
+          "id": "YOUR_TELEGRAM_CREDENTIAL_ID",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [[{ "node": "HTTP Request",        "type": "main", "index": 0 }]]
+    },
+    "HTTP Request": {
+      "main": [[{ "node": "Append row in sheet", "type": "main", "index": 0 }]]
+    },
+    "Append row in sheet": {
+      "main": [[{ "node": "Send a text message", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "instanceId": "YOUR_INSTANCE_ID"
+  },
+  "tags": []
+}
