@@ -1,0 +1,181 @@
+# 🤖 AI Document Automation System
+### Real-World Case · San Miguel de Tucumán, Argentina
+
+![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+![Stack](https://img.shields.io/badge/Stack-n8n%20%7C%20Groq%20%7C%20LLaMA%203.1-blue)
+![Type](https://img.shields.io/badge/Type-Workflow%20Automation-orange)
+
+---
+
+## 🎬 Live Demo
+
+[![Watch Demo on YouTube](https://img..jpg)](
+
+> *Click on the image to watch the system working in real-time.*
+
+---
+
+## 📌 Problem Context
+
+In San Miguel de Tucumán, most accounting firms and SMEs process their documentation **100% manually**: they receive receipts and invoices via WhatsApp or email, classify them into folders, copy data to Excel, and generate reports by hand.
+
+**Real Cost of the Problem:**
+- ⏱️ 3 daily hours of repetitive manual work
+- ❌ Frequent transcription errors
+- 📉 Zero real-time visibility into the business
+- 🔁 No scalability as the client base grows
+
+---
+
+## 💡 Implemented Solution
+
+An **end-to-end** automation pipeline powered by generative AI that transforms document chaos into actionable business intelligence, requiring no human intervention in the operational workflow.
+
+Client sends receipt/invoice
+↓
+Telegram Bot (24/7)
+↓
+Groq API + LLaMA 3.1
+[Intelligent data extraction]
+↓
+Google Sheets
+[Structured database]
+↓
+Automatic confirmation to client
++
+Weekly executive report
+code Code
+
+---
+
+## 📊 Measurable Results
+
+| Metric | Before | After |
+|---|---|---|
+| Time per document | ~8 minutes | ~5 seconds |
+| Transcription errors | Frequent | 0 |
+| System availability | Business hours | 24/7 |
+| Weekly report | 1 hour (manual) | Automatic |
+| Scalability | Limited | Unlimited |
+
+---
+
+## 🛠️ Tech Stack
+
+| Tool | Role in the System |
+|---|---|
+| **n8n** | Workflow orchestrator |
+| **Groq API** | High-speed LLM inference |
+| **LLaMA 3.1 8B** | Language model for data extraction |
+| **Telegram Bot API** | Input channel and notifications |
+| **Google Sheets API** | Database and operational dashboard |
+
+---
+
+## ⚙️ System Architecture
+
+### Workflow 1 — Real-Time Processing
+
+![Document Processor Workflow](./Architecture.png)
+
+[Telegram Trigger]
+↓
+[HTTP Request → Groq API]
+prompt engineering for structured extraction
+↓
+[Google Sheets → Append Row]
+automatic logging with metadata
+↓
+[Telegram → Client Confirmation]
+personalized response with processed data
+code Code
+
+### Workflow 2 — Weekly Business Intelligence
+
+![Weekly Report Workflow](./Architecture_2.png)
+
+[Schedule Trigger → Monday 8:00 AM]
+↓
+[Google Sheets → Get All Rows]
+↓
+[Code Node → Context sanitization & preparation]
+↓
+[Groq API → Executive analysis with LLM]
+total documents · accumulated amount · unique vendors
+key observations and alerts
+↓
+[Telegram → Executive report to team]
+code Code
+
+---
+
+## 📱 System in Action
+
+![Confirmation and Report on Telegram](./Telegram.png)
+
+*The bot confirms each received document and automatically sends the weekly executive report.*
+
+---
+
+## 🔐 Security Considerations
+
+- Credentials managed via **environment variables** in n8n
+- No API keys exposed in the repository
+- Sanitized client data (mock data used in this demo)
+- HTTPS encrypted channels across all integrations
+
+---
+
+## 🚀 How to Use This Template
+
+### Prerequisites
+- n8n account (cloud or self-hosted)
+- [Groq](https://console.groq.com) API Key *(free)*
+- Telegram Bot via [@BotFather](https://t.me/BotFather)
+- Google Account with Sheets enabled
+
+### Setup
+```bash
+# 1. Import workflow_template.json into n8n
+# 2. Configure credentials in n8n Settings
+# 3. Activate workflows
+# 4. Send the first message to the Telegram bot
+
+    ⚠️ The workflow_template.json file includes the complete structure with placeholders for credentials. Replace YOUR_API_KEY with actual values before running.
+
+🔜 Roadmap
+
+    Invoice image processing via Vision AI
+
+    Visual dashboard in Google Looker Studio
+
+    Multi-client support with unique IDs
+
+    Automatic classification by accounting categories
+
+    Amount anomaly alerts
+
+💼 About This Project
+
+This system was designed as a practical demonstration of competencies in:
+
+    Digital solution design focused on local real-world problems
+
+    Platform integration via REST APIs and webhooks
+
+    AI-assisted workflows using state-of-the-art language models
+
+    Prompt engineering for structured extraction from unstructured data
+
+    Automated Business Intelligence derived from operational data
+
+    Developed as part of an Automation & AI portfolio, focused on the digital transformation of SMEs in Northwest Argentina (NOA).
+
+📬 Contact
+
+Do you have a manual process that could be automated?
+
+![alt text](https://img.shields.io/badge/LinkedIn-Connect-blue)
+
+
+![alt text](https://img.shields.io/badge/Email-Contact-red)
